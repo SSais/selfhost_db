@@ -61,7 +61,7 @@ ADD COLUMN id SERIAL PRIMARY KEY;
 select * from strong order by date asc;
 select * from strong order by date desc;
 
--- duration is a string I need to change it into an integar
+-- duration is a string I need to change it into an integer
 select * from strong order by duration asc;
 select * from strong order by duration desc;
 
@@ -87,6 +87,4 @@ COMMIT;
 -- renaming a table (optional)
 ALTER TABLE strong RENAME TO strong_origonal;
 
-
-select * from strong;
 
