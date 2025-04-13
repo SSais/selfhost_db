@@ -1,8 +1,19 @@
 import os
-import pandas as pd
 
 from dotenv import load_dotenv
+from source.extract import extract_dataframe_from_CVS
 
+
+# Extract data into a dataframe
+# File path
+url = 'data/strong.csv'
+df = extract_dataframe_from_CVS(url)
+
+
+# Transform data
+
+# Load transformed data into DB
+# Load in environment variables
 load_dotenv()
 
 db_user = os.environ.get('DB_USER')
