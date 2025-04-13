@@ -20,17 +20,17 @@ def extract_dataframe_from_CVS(file_path: str) -> pd.DataFrame:
         return pd.read_csv(file_path)
     # Raise error if file does not exist
     except FileNotFoundError as e:
-        raise FileNotFoundError(f'Error: {e}/nFile not found at filepath: {file_path}.')
+        raise FileNotFoundError(f'Error: {e}\nFile not found at filepath: {file_path}.')
     # Raise error is there is no data in the file
     except pd.errors.EmptyDataError as e:
-        raise pd.errors.EmptyDataError(f'Error: {e}/nThere is not data in the file: {file_path}.')
+        raise pd.errors.EmptyDataError(f'Error: {e}\nThere is not data in the file: {file_path}.')
     # Raise error if file is not in the correct format
     # During testing determined that ParseError is not reliable
     except pd.errors.ParserError as e:
-        raise pd.errors.ParserError(f'Error: {e}/nThe file could not be parsed, check file content.')
+        raise pd.errors.ParserError(f'Error: {e}\nThe file could not be parsed, check file content.')
     # Raise error for any other exceptions
     except Exception as e:
-        raise Exception(f'Error: {e}/nAn unexpected error has occurred.')
+        raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
 
 
 def is_csv_file(file_path: str):
