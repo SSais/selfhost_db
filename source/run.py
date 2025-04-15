@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 
 from dotenv import load_dotenv
 
@@ -19,7 +18,7 @@ df = extract_dataframe_from_CVS(url)
 
 
 try: 
-# Before transforming do a check to make sure that there is an index that is numbered from 0 and going up by 1. no duplicates.
+# Before transforming do a check to make sure that there is an index that is numbered from 0 and going up by 1.(check if this is necessary)
 # check that the dataframe contains the columns that I'm expecting
 except Exception as e:
     raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
@@ -53,6 +52,13 @@ df_sets = left_merge_dataframes(df, df_workouts, ['date', 'workout_name'])
 df_sets = left_merge_dataframes(df_sets, df_exercises, 'exercise_name' )
 df_sets = drop_columns(df_sets, ['date', 'workout_name', 'exercise_name'])
 df_sets= df_sets[['set_id', 'workout_id', 'exercise_id', 'set_order', 'weight', 'reps']]
+
+try: 
+# Before loading check columns of the new tables are correct
+# Check there are no duplicates in id and its going up in increments 
+except Exception as e:
+    raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
+
 
 
 # Load transformed data into DB
