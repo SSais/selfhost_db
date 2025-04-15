@@ -108,8 +108,17 @@ def create_table(dataframe: pd.DataFrame, new_dataframe_column_list: list) -> pd
     return dataframe[new_dataframe_column_list].drop_duplicates().reset_index(drop=True)
 
 
-# # Creating the sets table 
-# sets = pd.merge(df, workouts, on=['date', 'workout_name'], how='left')
-# sets = pd.merge(sets, exercises, on='exercise_name', how='left')
-# sets = sets.drop(columns=['date', 'workout_name', 'exercise_name'])  # Drop columns
-# sets = sets[['set_id', 'workout_id', 'exercise_id', 'set_order', 'weight', 'reps']]  # Re-order columns
+# Merge dataframe
+def lef_merge_dataframes(left_dataframe: pd.DataFrame, 
+                         right_dataframe: pd.DataFrame, 
+                         columns_to_merge_on: list
+                         ) -> pd.DataFrame:
+    """
+    
+    Input:
+        
+    Output:
+        
+    Raise:
+    """
+    return left_dataframe.merge(right_dataframe, on=columns_to_merge_on, how='left')
