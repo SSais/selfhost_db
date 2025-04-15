@@ -1,7 +1,8 @@
-import os
-
 from dotenv import load_dotenv
+import os
+from sqlalchemy import create_engine
 
+# Load functions
 from source.extract import extract_dataframe_from_CVS
 from source.transform import drop_columns
 from source.transform import rename_columns
@@ -10,8 +11,7 @@ from source.transform import remove_rows_with_no_reps
 from source.transform import create_table
 from source.transform import left_merge_dataframes
 
-
-# Extract data into a dataframe
+# EXTRACT
 # File path
 url = 'data/strong.csv'
 df = extract_dataframe_from_CVS(url)
@@ -24,7 +24,7 @@ except Exception as e:
     raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
 
 
-# Transform data
+# TRANSFORM
 # Drop columns
 df = drop_columns(df, ["Duration", "Distance", "Seconds", "Notes", "Workout Notes", "RPE"])
 
@@ -56,22 +56,54 @@ df_sets= df_sets[['set_id', 'workout_id', 'exercise_id', 'set_order', 'weight', 
 try: 
 # Before loading check columns of the new tables are correct
 # Check there are no duplicates in id and its going up in increments 
+# Sum of nulls should = 0
+# Should be no 0's in rep column 
 except Exception as e:
     raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
 
+# LOAD
+# Set up dictionary
+df_dictionary = {
+    'workouts': [df_workouts, 'workout_id'],
+    'exercises': [df_exercises, 'exercise_id'],
+    'sets': [df_sets, 'set_id']
+    }
 
-
-# Load transformed data into DB
 # Load in environment variables
 load_dotenv()
-
 db_user = os.environ.get('DB_USER')
 db_pass = os.environ.get('DB_PASSWORD')
 db_name = os.environ.get('DB_NAME')
 db_host = os.environ.get('DB_HOST')
 db_port = os.environ.get('DB_PORT')
 
+# Create engine
+db_url = f"postgresql://{db_user}:{db_pass}@{db_host}/{db_name}"
+engine = create_engine(db_url)
 
-# I want to check if the ID already exists in the db. 
-# If it exists - dont add to databse
-# If it does not exist - do add to database
+# Load new data to DB
+with engine.connect() as connection:
+    for key, value in df_dictionary.items():
+    
+    # Define variables
+    df = value[0]
+    id_column = value[1]
+    table_name = key  
+    
+    # Get ID count from DB
+    count_query = text(f"SELECT COUNT({id_column}) FROM {table_name}")
+    result = connection.execute(count_query)
+    id_count_from_db = result.scalar_one()
+
+    # Get ID count from dataframe
+    id_count_from_df = df[id_column].count()
+
+    if id_count_from_db < id_count_from_df:
+        select_rows_from_df = df[id_count_from_db:]
+        
+        # Add rows to DB
+        select_rows_from_df.to_sql(table_name, engine, if_exists='append', index=False)
+        print(f"Successfully added {id_count_from_df - id_count_from_db} new records to {table_name}.")
+    else:
+        print(f"No new records added to {table_name}.")
+engine.dispose()
