@@ -12,8 +12,9 @@ def extract_dataframe_from_CVS(file_path: str) -> pd.DataFrame:
     Input:
         file_path (str): The path to the CSV file.
     Output:
-        Pandas dataframe: A dataFrame containing the data, or an error if it occurs.
-    Raise: 
+        Pandas dataframe: A dataFrame containing the data, or an error if it
+        occurs.
+    Raise:
         NotCSVError if file is in the wrong format.
         FileNotFoundError if file does not exist.
         EmptyDataError if there is no data in the file.

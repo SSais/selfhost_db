@@ -103,23 +103,22 @@ def test_rename_column_valueerror():
     assert expected_outcome in str(message.value)
 
 
-
 # Turn the index into an id column
-# Successful execution 
+# Successful execution
 # KeyError
 # TypeError
 # Exception
 
 # Remove rows where reps = 0
-# Successful execution 
-#KeyError
-#TypeError
-#Exception
+# Successful execution
+# KeyError
+# TypeError
+# Exception
 
 
 # Creating the workout and exercise tables
-# Successful execution 
-#KeyError
-#TypeError
-#Exception
-# What if i enter a column name that doesnt exist
+# Successful execution
+# KeyError
+# TypeError
+# Exception
+# What if i enter a column name that doesn't exist
