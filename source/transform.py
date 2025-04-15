@@ -48,7 +48,7 @@ def rename_columns(dataframe: pd.DataFrame, columns_list: list) -> pd.DataFrame:
     except ValueError as e:
         raise ValueError(f'Error: {e}\nCheck that correct number of column names have been entered.')
     except Exception as e:
-        raise Exception(f'Error: {e}\n An unexpected error has occurred.')
+        raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
 
 
 # Turn the index into an id column
@@ -70,7 +70,7 @@ def set_index_as_id(dataframe: pd.DataFrame, id_column_name: str) -> pd.DataFram
         dataframe[id_column_name] = dataframe.index + 1
         return dataframe
     except Exception as e:
-        raise Exception(f'Error: {e}\n An unexpected error has occurred.')
+        raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
 
 
 # Remove rows where reps = 0
@@ -82,16 +82,13 @@ def remove_rows_with_no_reps(dataframe: pd.DataFrame) -> pd.DataFrame :
     Output:
         Pandas dataframe: A dataFrame where there are no reps with the 0 value.
     Raise:
-        KeyError if reps is not in the dataframe
         Exception for unexpected errors.
     """
     try:
         dataframe = dataframe[dataframe['reps'] != 0]
         return dataframe
-    except KeyError as e:
-        raise KeyError(f'Error: {e}\nCheck that "reps" columns is in the dataframe.')
     except Exception as e:
-        raise Exception(f"Error: An unexpected error occurred while removing rows: {e}")
+        raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
 
 
 # Creating the workout and exercise tables
@@ -106,7 +103,10 @@ def create_table(dataframe: pd.DataFrame, new_dataframe_column_list: list) -> pd
         Pandas dataframe: A dataFrame where there are no reps with the 0 value.
     Raise:
     """
-    return dataframe[new_dataframe_column_list].drop_duplicates().reset_index(drop=True)
+    try:
+        return dataframe[new_dataframe_column_list].drop_duplicates().reset_index(drop=True)
+    except Exception as e:
+        raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
 
 
 # Merge dataframe
@@ -124,4 +124,7 @@ def left_merge_dataframes(left_dataframe: pd.DataFrame,
         Pandas dataframe: A dataframe that has been merged.
     Raise:
     """
-    return left_dataframe.merge(right_dataframe, on=columns_to_merge_on, how='left')
+    try:
+        return left_dataframe.merge(right_dataframe, on=columns_to_merge_on, how='left')
+    except Exception as e:
+        raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
