@@ -19,7 +19,7 @@ df = extract_dataframe_from_CVS(url)
 
 # Dataframe check pre-transformation
 try: 
-    # Check that index starts at 0 and is unique
+    # Check that index starts at 0 and is unique and there are more than 3000 entries
     if min(df.index) == 0 and df.index.is_unique == True and len(df.index) > 3000:
         print('Index starts at 0 and is unique')
     else:
@@ -95,26 +95,25 @@ engine = create_engine(db_url)
 # Load new data to DB
 with engine.connect() as connection:
     for key, value in df_dictionary.items():
-    
-    # Define variables
-    df = value[0]
-    id_column = value[1]
-    table_name = key  
-    
-    # Get ID count from DB
-    count_query = text(f"SELECT COUNT({id_column}) FROM {table_name}")
-    result = connection.execute(count_query)
-    id_count_from_db = result.scalar_one()
-
-    # Get ID count from dataframe
-    id_count_from_df = df[id_column].count()
-
-    if id_count_from_db < id_count_from_df:
-        select_rows_from_df = df[id_count_from_db:]
+        # Define variables
+        df = value[0]
+        id_column = value[1]
+        table_name = key  
         
-        # Add rows to DB
-        select_rows_from_df.to_sql(table_name, engine, if_exists='append', index=False)
-        print(f"Successfully added {id_count_from_df - id_count_from_db} new records to {table_name}.")
-    else:
-        print(f"No new records added to {table_name}.")
+        # Get ID count from DB
+        count_query = text(f"SELECT COUNT({id_column}) FROM {table_name}")
+        result = connection.execute(count_query)
+        id_count_from_db = result.scalar_one()
+
+        # Get ID count from dataframe
+        id_count_from_df = df[id_column].count()
+
+        if id_count_from_db < id_count_from_df:
+            select_rows_from_df = df[id_count_from_db:]
+            
+            # Add rows to DB
+            select_rows_from_df.to_sql(table_name, engine, if_exists='append', index=False)
+            print(f"Successfully added {id_count_from_df - id_count_from_db} new records to {table_name}.")
+        else:
+            print(f"No new records added to {table_name}.")
 engine.dispose()
