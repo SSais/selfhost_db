@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+import pandas as pd
 from sqlalchemy import create_engine
 
 # Load functions
@@ -16,17 +17,28 @@ from source.transform import left_merge_dataframes
 url = 'data/strong.csv'
 df = extract_dataframe_from_CVS(url)
 
-
+# Dataframe check pre-transformation
 try: 
-# Before transforming do a check to make sure that there is an index that is numbered from 0 and going up by 1.(check if this is necessary)
-# check that the dataframe contains the columns that I'm expecting
+    # Check that index starts at 0 and is unique
+    if min(df.index) == 0 and df.index.is_unique == True and len(df.index) > 3000:
+        print('Index starts at 0 and is unique')
+    else:
+        raise Exception('Index is incorrect') 
+
+    # Check for expected columns
+    expected_columns = ['Date', 'Workout Name', 'Duration', 'Exercise Name', 'Set Order', 'Weight', 'Reps', 'Distance', 'Seconds', 'Notes', 'Workout Notes', 'RPE']
+    actual_columns = df.columns
+    if expected_columns == actual_columns:
+        print('Expected columns are present')
+    else:
+        raise Exception('Column(s) missing from the data') 
 except Exception as e:
-    raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
+    raise Exception(f'Error: {e}\nAn unexpected error has occurred, please check extracted data is correct.')
 
 
 # TRANSFORM
 # Drop columns
-df = drop_columns(df, ["Duration", "Distance", "Seconds", "Notes", "Workout Notes", "RPE"])
+df = drop_columns(df, ['Duration', 'Distance', 'Seconds', 'Notes', 'Workout Notes', 'RPE'])
 
 # Rename columns
 df = rename_columns(df, ['date', 'workout_name', 'exercise_name', 'set_order', 'weight', 'reps'])
@@ -55,8 +67,7 @@ df_sets= df_sets[['set_id', 'workout_id', 'exercise_id', 'set_order', 'weight', 
 
 try: 
 # Before loading check columns of the new tables are correct
-# Check there are no duplicates in id and its going up in increments 
-# Sum of nulls should = 0
+# Check there are no duplicates in id
 # Should be no 0's in rep column 
 except Exception as e:
     raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
