@@ -13,22 +13,25 @@ def extract_dataframe_from_CVS(file_path: str) -> pd.DataFrame:
         file_path (str): The path to the CSV file.
     Output:
         Pandas dataframe: A dataFrame containing the data, or an error if it occurs.
+    Raise: 
+        NotCSVError if file is in the wrong format.
+        FileNotFoundError if file does not exist.
+        EmptyDataError if there is no data in the file.
+        ParserError if the file cannot be parsed.
+        Exception for unexpected errors.
     """
     try:
         is_csv_file(file_path)
-        # Extract data from file
+
         return pd.read_csv(file_path)
-    # Raise error if file does not exist
     except FileNotFoundError as e:
         raise FileNotFoundError(f'Error: {e}\nFile not found at filepath: {file_path}.')
-    # Raise error is there is no data in the file
     except pd.errors.EmptyDataError as e:
         raise pd.errors.EmptyDataError(f'Error: {e}\nThere is not data in the file: {file_path}.')
     # Raise error if file is not in the correct format
     # During testing determined that ParseError is not reliable
     except pd.errors.ParserError as e:
         raise pd.errors.ParserError(f'Error: {e}\nThe file could not be parsed, check file content.')
-    # Raise error for any other exceptions
     except Exception as e:
         raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
 
