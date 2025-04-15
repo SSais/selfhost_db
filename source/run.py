@@ -90,8 +90,8 @@ with engine.connect() as connection:
         # Define variables
         df = value[0]
         id_column = value[1]
-        table_name = key  
-        
+        table_name = key
+
         # Get ID count from DB
         count_query = text(f"SELECT COUNT({id_column}) FROM {table_name}")
         result = connection.execute(count_query)
@@ -102,7 +102,7 @@ with engine.connect() as connection:
 
         if id_count_from_db < id_count_from_df:
             select_rows_from_df = df[id_count_from_db:]
-            
+
             # Add rows to DB
             select_rows_from_df.to_sql(table_name, engine, if_exists='append', index=False)
             print(f"Successfully added {id_count_from_df - id_count_from_db} new records to {table_name}.")
