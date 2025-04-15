@@ -3,6 +3,7 @@ import pytest
 
 from source.transform import drop_columns
 from source.transform import rename_columns
+from source.transform import set_index_as_id
 
 test_df = pd.read_csv('data/strong.csv')
 
@@ -103,13 +104,43 @@ def test_rename_column_valueerror():
     assert expected_outcome in str(message.value)
 
 
-# Turn the index into an id column
-# Successful execution
-# KeyError
-# TypeError
-# Exception
+# Test that index turns into an id column
+def test_set_index_as_id():
+    # Arrange
+    test_input = test_df.copy()
+    test_column_name = 'test'
+    expected_outcome = test_df.copy()
+    expected_outcome[test_column_name] = expected_outcome.index + 1
+    # Act
+    actual_outcome = set_index_as_id(test_input, test_column_name)
+    # Assert
+    pd.testing.assert_frame_equal(actual_outcome, expected_outcome)
+
+
+# Test TypeError for set index
+def test_set_index_as_id_typeerror():
+    # Arrange
+    test_input = test_df.copy()
+    test_column_name = 1
+    expected_outcome = 'The column name has to be a string.'
+    # Act
+    with pytest.raises(TypeError) as message:
+        set_index_as_id(test_input, test_column_name)
+    # Assert
+    assert expected_outcome in str(message.value)
+
 
 # Remove rows where reps = 0
+def test_set_index_as_id():
+    # Arrange
+    test_input = test_df.copy()
+    test_column_name = 'test'
+    expected_outcome = test_df.copy()
+    expected_outcome[test_column_name] = expected_outcome.index + 1
+    # Act
+    actual_outcome = set_index_as_id(test_input, test_column_name)
+    # Assert
+    pd.testing.assert_frame_equal(actual_outcome, expected_outcome)
 # Successful execution
 # KeyError
 # TypeError
@@ -117,6 +148,16 @@ def test_rename_column_valueerror():
 
 
 # Creating the workout and exercise tables
+def test_set_index_as_id():
+    # Arrange
+    test_input = test_df.copy()
+    test_column_name = 'test'
+    expected_outcome = test_df.copy()
+    expected_outcome[test_column_name] = expected_outcome.index + 1
+    # Act
+    actual_outcome = set_index_as_id(test_input, test_column_name)
+    # Assert
+    pd.testing.assert_frame_equal(actual_outcome, expected_outcome)
 # Successful execution
 # KeyError
 # TypeError

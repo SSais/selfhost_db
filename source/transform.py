@@ -64,11 +64,11 @@ def set_index_as_id(dataframe: pd.DataFrame, id_column_name: str) -> pd.DataFram
         TypeError if the column name is not a string.
         Exception for unexpected errors.
     """
+    if not isinstance(id_column_name, str):
+        raise TypeError('The column name has to be a string.')
     try:
         dataframe[id_column_name] = dataframe.index + 1
         return dataframe
-    except TypeError as e:
-        raise TypeError(f'Error: {e}\nThe column-name has to be a string.')
     except Exception as e:
         raise Exception(f'Error: {e}\n An unexpected error has occurred.')
 
@@ -83,7 +83,6 @@ def remove_rows_with_no_reps(dataframe: pd.DataFrame) -> pd.DataFrame :
         Pandas dataframe: A dataFrame where there are no reps with the 0 value.
     Raise:
         KeyError if reps is not in the dataframe
-        HAVE TO CHECK THAT THE DATAFRAME HAS BEEN ENTERED!!!!
         Exception for unexpected errors.
     """
     try:
@@ -111,10 +110,10 @@ def create_table(dataframe: pd.DataFrame, new_dataframe_column_list: list) -> pd
 
 
 # Merge dataframe
-def lef_merge_dataframes(left_dataframe: pd.DataFrame,
-                         right_dataframe: pd.DataFrame,
-                         columns_to_merge_on: list
-                         ) -> pd.DataFrame:
+def left_merge_dataframes(left_dataframe: pd.DataFrame,
+                          right_dataframe: pd.DataFrame,
+                          columns_to_merge_on: list
+                          ) -> pd.DataFrame:
     """
     Left merge two dataframes.
     Input:

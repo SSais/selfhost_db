@@ -2,6 +2,12 @@ import os
 
 from dotenv import load_dotenv
 from source.extract import extract_dataframe_from_CVS
+from source.transform import drop_columns
+from source.transform import rename_columns
+from source.transform import set_index_as_id
+from source.transform import remove_rows_with_no_reps
+from source.transform import create_table
+from source.transform import left_merge_dataframes
 
 
 # Extract data into a dataframe
@@ -10,10 +16,17 @@ url = 'data/strong.csv'
 df = extract_dataframe_from_CVS(url)
 
 
-# Transform data
+# Before transforming do a check to make sure that there is an index that is numbered from 0 and going up by 1. no duplicates.
+# check that the dataframe contains the columns that I'm expecting
 
+
+# Transform data
 # Drop columns
+df = drop_columns(df, ["Duration", "Distance", "Seconds", "Notes", "Workout Notes", "RPE"])
+
 # Rename columns
+df = rename_columns(df, ['date', 'workout_name', 'exercise_name', 'set_order', 'weight', 'reps'])
+
 # Remove rows where reps = 0
 # Set ID
 
