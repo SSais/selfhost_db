@@ -39,7 +39,7 @@ def test_empty_file():
     assert expected_output in str(message.value)
 
 
-#  Test Invalid CSV format 
+#  Test Invalid CSV format
 def test_incorrect_file_format():
     # Arrange
     test_input = 'tests/test_data/not_csv.txt'

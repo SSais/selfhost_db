@@ -1,9 +1,6 @@
 import pandas as pd
 
 
-["Duration", "Distance", "Seconds", "Notes", "Workout Notes", "RPE"]
-
-
 # Transform using pandas
 # Removing columns that I don't need.
 def drop_columns(dataframe: pd.DataFrame, columns_list: list) -> pd.DataFrame:
@@ -14,7 +11,7 @@ def drop_columns(dataframe: pd.DataFrame, columns_list: list) -> pd.DataFrame:
         columns_list (list): The names of columns to be dropped.
     Output:
         Pandas dataframe: A dataFrame with the dropped columns.
-    Raise: 
+    Raise:
         TypeError
         KeyError
         TypeError
@@ -30,9 +27,6 @@ def drop_columns(dataframe: pd.DataFrame, columns_list: list) -> pd.DataFrame:
         raise TypeError(f'Error: {e}\nThe column-list has to be a list.')
     except Exception as e:
         raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
-
-
-['date', 'workout_name', 'exercise_name', 'set_order', 'weight', 'reps']
 
 
 # Renaming columns
@@ -67,6 +61,7 @@ def set_index_as_id(dataframe: pd.DataFrame, id_column_name: str) -> pd.DataFram
         id_column_name (list): Name of the new ID column.
     Output:
         Pandas dataframe: A dataFrame with the new ID column.
+    Raise:
     """
     try:
         dataframe[id_column_name] = dataframe.index + 1
@@ -79,10 +74,18 @@ def set_index_as_id(dataframe: pd.DataFrame, id_column_name: str) -> pd.DataFram
         raise Exception(f'Error: {e}\n An unexpected error has occurred.')   
 
 
-# Remove rows where reps = 0 
+# Remove rows where reps = 0
 def remove_rows_with_no_reps(dataframe: pd.DataFrame, reps_column_name: str = 'reps') -> pd.DataFrame :
+    """
+    
+    Input:
+        
+    Output:
+        
+    Raise:
+    """
     try:
-        dataframe = dataframe[dataframe['reps'] != 0]
+        dataframe = dataframe[dataframe[reps_column_name] != 0]
         return dataframe
     except KeyError as e:
         raise KeyError(f'Error: {e}\nCheck that column exists in the dataframe.')
@@ -92,16 +95,18 @@ def remove_rows_with_no_reps(dataframe: pd.DataFrame, reps_column_name: str = 'r
         raise Exception(f"Error: An unexpected error occurred while removing rows: {e}")
 
 
-# # Normalising data
-# # Creating the workout table
-# workouts = df[['date', 'workout_name']].drop_duplicates().reset_index(drop=True)
-# workouts['workout_id'] = workouts.index + 1  # Add index
-# workouts = workouts[['workout_id', 'date', 'workout_name']]  # Re-order columns
+# Creating the workout and exercise tables
+def create_table(dataframe: pd.DataFrame, new_dataframe_column_list: list) -> pd.DataFrame:
+    """
+    
+    Input:
+        
+    Output:
+        
+    Raise:
+    """
+    return dataframe[new_dataframe_column_list].drop_duplicates().reset_index(drop=True)
 
-# # Creating the exercise table
-# exercises = df[['exercise_name']].drop_duplicates().reset_index(drop=True)
-# exercises['exercise_id'] = exercises.index + 1  # Add index
-# exercises = exercises[['exercise_id', 'exercise_name']]  # Re-order columns
 
 # # Creating the sets table 
 # sets = pd.merge(df, workouts, on=['date', 'workout_name'], how='left')

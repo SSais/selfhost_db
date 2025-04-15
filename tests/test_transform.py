@@ -22,7 +22,7 @@ def test_drop_columns():
 
 #  Test KeyError for column removal
 def test_drop_column_keyerror():
-    # Arrange 
+    # Arrange
     test_input = test_df.copy()
     test_columns = ['Duration', 'Does not Exist']
     expected_outcome = 'Check that all columns are in the dataframe'
@@ -101,3 +101,25 @@ def test_rename_column_valueerror():
         rename_columns(test_input, test_columns)
     # Assert
     assert expected_outcome in str(message.value)
+
+
+
+# Turn the index into an id column
+# Successful execution 
+# KeyError
+# TypeError
+# Exception
+
+# Remove rows where reps = 0
+# Successful execution 
+#KeyError
+#TypeError
+#Exception
+
+
+# Creating the workout and exercise tables
+# Successful execution 
+#KeyError
+#TypeError
+#Exception
+# What if i enter a column name that doesnt exist
