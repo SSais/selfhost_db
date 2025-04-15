@@ -1,6 +1,5 @@
 from dotenv import load_dotenv
 import os
-import pandas as pd
 from sqlalchemy import create_engine
 
 # Load functions
@@ -20,10 +19,10 @@ df = extract_dataframe_from_CVS(url)
 # Dataframe check pre-transformation
 try: 
     # Check that index starts at 0 and is unique and there are more than 3000 entries
-    if min(df.index) == 0 and df.index.is_unique == True and len(df.index) > 3000:
+    if min(df.index) == 0 and df.index.is_unique and len(df.index) > 3000:
         print('Index starts at 0 and is unique')
     else:
-        raise Exception('Index is incorrect') 
+        raise Exception('Index is incorrect')
 
     # Check for expected columns
     expected_columns = ['Date', 'Workout Name', 'Duration', 'Exercise Name', 'Set Order', 'Weight', 'Reps', 'Distance', 'Seconds', 'Notes', 'Workout Notes', 'RPE']
@@ -63,14 +62,7 @@ df_exercises = df_exercises[['exercise_id', 'exercise_name']]
 df_sets = left_merge_dataframes(df, df_workouts, ['date', 'workout_name'])
 df_sets = left_merge_dataframes(df_sets, df_exercises, 'exercise_name' )
 df_sets = drop_columns(df_sets, ['date', 'workout_name', 'exercise_name'])
-df_sets= df_sets[['set_id', 'workout_id', 'exercise_id', 'set_order', 'weight', 'reps']]
-
-try: 
-# Before loading check columns of the new tables are correct
-# Check there are no duplicates in id
-# Should be no 0's in rep column 
-except Exception as e:
-    raise Exception(f'Error: {e}\nAn unexpected error has occurred.')
+df_sets = df_sets[['set_id', 'workout_id', 'exercise_id', 'set_order', 'weight', 'reps']]
 
 # LOAD
 # Set up dictionary
