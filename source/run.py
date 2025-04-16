@@ -1,15 +1,16 @@
 from dotenv import load_dotenv
 import os
-from sqlalchemy import create_engine
+import psycopg2
+from sqlalchemy import create_engine, text
 
 # Load functions
-from source.extract import extract_dataframe_from_CVS
-from source.transform import drop_columns
-from source.transform import rename_columns
-from source.transform import set_index_as_id
-from source.transform import remove_rows_with_no_reps
-from source.transform import create_table
-from source.transform import left_merge_dataframes
+from extract import extract_dataframe_from_CVS
+from transform import drop_columns
+from transform import rename_columns
+from transform import set_index_as_id
+from transform import remove_rows_with_no_reps
+from transform import create_table
+from transform import left_merge_dataframes
 
 # EXTRACT
 # File path
@@ -17,7 +18,7 @@ url = 'data/strong.csv'
 df = extract_dataframe_from_CVS(url)
 
 # Dataframe check pre-transformation
-try: 
+try:
     # Check that index starts at 0 and is unique and there are more than 3000 entries
     if min(df.index) == 0 and df.index.is_unique and len(df.index) > 3000:
         print('Index starts at 0 and is unique')
@@ -27,7 +28,8 @@ try:
     # Check for expected columns
     expected_columns = ['Date', 'Workout Name', 'Duration', 'Exercise Name', 'Set Order', 'Weight', 'Reps', 'Distance', 'Seconds', 'Notes', 'Workout Notes', 'RPE']
     actual_columns = df.columns
-    if expected_columns == actual_columns:
+
+    if expected_columns == actual_columns.tolist():
         print('Expected columns are present')
     else:
         raise Exception('Column(s) missing from the data') 
@@ -81,7 +83,7 @@ db_host = os.environ.get('DB_HOST')
 db_port = os.environ.get('DB_PORT')
 
 # Create engine
-db_url = f"postgresql://{db_user}:{db_pass}@{db_host}/{db_name}"
+db_url = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
 engine = create_engine(db_url)
 
 # Load new data to DB

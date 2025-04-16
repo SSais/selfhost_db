@@ -57,11 +57,11 @@ ALTER TABLE strong
 ADD COLUMN id SERIAL PRIMARY KEY;
 
 
--- ordering by asc/desc for each column to check for anomalous results
+-- ordering by asc/desc for each column to check for anomalous results (replace * with column name)
 select * from strong order by date asc;
 select * from strong order by date desc;
 
--- duration is a string I need to change it into an integer
+-- duration is a string I need to change it into an integer (replace * with column name)
 select * from strong order by duration asc;
 select * from strong order by duration desc;
 
@@ -85,6 +85,26 @@ COMMIT;
 
 
 -- renaming a table (optional)
-ALTER TABLE strong RENAME TO strong_origonal;
+ALTER TABLE strong RENAME TO strong_original;
 
 
+-- creating the workouts, sets and exercises table
+CREATE TABLE workouts (
+	workout_id INTEGER PRIMARY KEY, 
+	date TIMESTAMP,
+	workout_name TEXT
+);
+	
+CREATE TABLE exercises (
+	exercise_id INTEGER PRIMARY KEY,
+	exercise_name TEXT
+);
+
+CREATE TABLE sets (
+	set_id INTEGER PRIMARY KEY,
+	workout_id INTEGER REFERENCES workouts(workout_id),
+	exercise_id INTEGER REFERENCES exercises(exercise_id),
+	set_order INTEGER,
+	weight INTEGER,
+	reps INTEGER
+);
