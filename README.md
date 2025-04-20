@@ -173,6 +173,8 @@ There are a few options that I have not tried yet:
 
 Please let me know if you see what the issue could be from the code.
 
+With Pandas I was also able to ensure that loading would only be performed for new rows, this is to make the loading more efficient. So I can keep downloading new CSV files and uploading them onto my database - and only the rows with new ID numbers will be loaded!
+
 ## Tabluea
 
 The data was manually exported from the databse, then uploaded into Tableau and visualised.
