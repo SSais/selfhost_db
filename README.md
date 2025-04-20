@@ -154,7 +154,7 @@ This is not perfect - and I will be aiming to start my next projects with a test
 
 I made all the adjustments in SQL, with the addition of data noramlisation - which was much easier in python, please see the normalisation tables below:
 
-INSERT IMAGE
+![](img/img7.png)
 
 Created with [quickdatabasediagrams.com](https://app.quickdatabasediagrams.com/#/)
 
