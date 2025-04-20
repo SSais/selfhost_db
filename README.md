@@ -32,26 +32,51 @@ flowchart LR
 ```
 
 ## Index
-- [Get Started](#the-data)
+- [Clone and Run](#clone-and-run)
 - [SQL](#sql)
 - [Pandas](#pandas)
-- [The Database](#the-data)
-- [Tabluea](#the-data)
+- [The Database](#the-database)
+- [Tabluea](#tabluea)
 
-## Run
+## Clone and Run
 
-You will need: python3, dbeaver/other platform that you can access a databse with, postgres db
+To run the code you will need python3 (3.12 is the version I used), DBeaver (or another SQL IDE), PostgreSQL.
 
-Clone repo
 
-optional(recommended)
-set up virtual environment
+Clone the repository in the folder of your choice:
+```git
+git clone
+```
 
-install requirements
 
-Set up your environment variables - for your db
+Optional but recommended is to set up a virtual python environment:
+(This is the instruction for Mac OSX, windows will be different)
+```terminal
+python3 -m venv .venv 
+source .venv/bin/activate
+```
 
-run.py
+
+Install the python3 packages:
+```terminal
+pip install -r requirements.txt
+```
+
+
+Create a .env file in the root directory and set up your database variables:
+```env
+DB_HOST= enter_host
+DB_NAME= enter_db_name
+DB_USER= enter_username
+DB_PASSWORD= enter_password
+DB_PORT= enter_port
+```
+
+
+Run the code:
+```terminal
+python3 source/run.py
+```
 
 
 ## The Data
@@ -62,36 +87,29 @@ The data was downloaded from the app in the CVS format, it is also included in t
 From first glance, you can see that the data is in one large table. There are many blank columns that will need to be removed, I will also need to look at the data closer to find any issues that are not so obvious at first glance.
 
 
-
-
-DELETE IMG7 - RECREATE THE NORMALISATION DIAGRAM
-
-Created with [quickdatabasediagrams.com](https://app.quickdatabasediagrams.com/#/)
-
-
 ## SQL
 
-This projected was started as soon as we had finished learning basic SQL. Using SQL I methodically went through the data and performed the following quality check queries and adjustments:
-- Check rows
-- Check columns
-- Check for nulls 
-- Drop unwanted columns
-- Add a primary key
-- Adjust column names  
+Data was manually loaded into DBeaver before the transforamtion with SQL 
 
-Write what I found during the checks...
-Duration was text during asc/desc
-that there were sets with 0 reps in asc/desc
-There were columns with missing data that i removed
-There was no primary key
-changed names so that there were nocapitals and spaces
+This projected was started as soon as we had finished learning basic SQL. Using SQL, I methodically went through the data and performed the following quality check queries and adjustments:
+- Counted rows
+- Counted columns
+- Checked for nulls
+- Sorted each column by asc and desc
 
-The data was not normalised - but this will be difficult to do in sql and I did not know how to
+When I rder by ascending, I found out that the duration column was in text and that there were sets of exercises recorded with 0 reps. 
+I decided to drop the duration column as I had also in many cases forgotten to end the workout so there were many entries with incorrect duration, but its also a metric that I' not interested in. 
+I would skip exercises by entering 0 reps, this was to ensure that my workout templates would not be changed by the app. So I will be removing these rows.
 
-The adjustments and checks cound be found in /SQL
+I made the following changes:
+- Dropped unwanted columns
+- Added a primary key
+- Adjusted column names
+- Removed rows with 0 reps
 
-Data manually loaded into the DBeaver before the transforamtion with SQL 
+I would have liked to normalise the data at this point, however this will be difficult in SQL, I will be doing this with Pandas.
 
+The adjustments and checks cound be found in the /sql folder.
 
 ## Pandas
 
@@ -102,6 +120,7 @@ Pandas made it easier to normalise data
 See below how the normalisation tables:
 
 
+Created with [quickdatabasediagrams.com](https://app.quickdatabasediagrams.com/#/)
 
 Data was read using pandas, then transformed
 Same changes as I did with SQL apart from the adition of normalisation
