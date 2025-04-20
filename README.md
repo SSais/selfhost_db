@@ -179,5 +179,7 @@ With Pandas I was also able to ensure that loading would only be performed for n
 
 The data was manually exported from the databse, then uploaded into Tableau and visualised.
 
-Link to a platuea I have ID'd
+[Basic Visualisation]([https://app.quickdatabasediagrams.com/#/](https://public.tableau.com/app/profile/sayed.sais/viz/Book1_17451892279930/Dashboard1?publish=yes))
+
+This is a basic visualisation for one of the lifts, as you can see on 21 and 29 Mar2025 I had the same number of total reps and weight. That meansa that I need to target that exercise for a deload - which I did not do as I did not have this visual aid.
 
