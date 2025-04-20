@@ -33,9 +33,9 @@ flowchart LR
 
 ## Index
 - [Clone and Run](#clone-and-run)
+- [The Database](#the-database)
 - [SQL](#sql)
 - [Pandas](#pandas)
-- [The Database](#the-database)
 - [Tabluea](#tabluea)
 
 ## Clone and Run
