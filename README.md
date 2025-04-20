@@ -78,6 +78,42 @@ Run the code:
 python3 source/run.py
 ```
 
+## The Database
+I have a local server, it is a cheap Lenovo mini PC bought from Ebay for about £50. It has the Ubuntu server distro installed. 
+
+I will be setting up a PostgreSQL database onto it.
+
+I created a directory in my server. 
+Using github SSH I pulled the docker-compose.yml file onto my local server, the docker file can be found in the /docker directory.
+I changed the password and database username, as well as the port number (as I have other programs installed). 
+The first port number is the port that will need to be used to connect to your server. 
+
+Following the adjustments in the file I entered the following command in the terminal: 
+
+```terminal
+docker-compose up -d 
+```
+![](img/img1.png)
+
+
+This runs the container and installs the database!
+
+### Install Confirmation
+
+To confirm that the database has been set up, I opened DBeaver on my main computer. 
+
+I connected to the database as per the following image:
+
+![](img/img2.png)
+![](img/img3.png)
+
+Test the connection and finally confirm! 
+
+Now I can upload data into the database!
+
+![](img/img4.png)
+![](img/img5.png)
+
 
 ## The Data
 The data was downloaded from the app in the CVS format, it is also included in the repo in /data.
@@ -109,78 +145,37 @@ I made the following changes:
 
 I would have liked to normalise the data at this point, however this will be difficult in SQL, I will be doing this with Pandas.
 
-The adjustments and checks cound be found in the /sql folder.
+The adjustments and checks can be found in the /sql folder.
 
 ## Pandas
 
-Once I learned Pandas I revisited this project, also with the aim of writing simple functions and to practise writing some tests
-This is not perfect - I will need to practise tests and writing more functions 
+Once I learned Pandas I revisited the transformation, also with the aim of practising python and test writing.
+This is not perfect - and I will be aiming to start my next projects with a test driven development approach.
 
-Pandas made it easier to normalise data 
-See below how the normalisation tables:
+I made all the adjustments in SQL, with the addition of data noramlisation - which was much easier in python, please see the normalisation tables below:
 
+INSERT IMAGE
 
 Created with [quickdatabasediagrams.com](https://app.quickdatabasediagrams.com/#/)
 
-Data was read using pandas, then transformed
-Same changes as I did with SQL apart from the adition of normalisation
-Unofrtunately was not able to load data into the database using the code. Have trouble shooted but I think there could be an error with the databse configuration - but not too sure yet.
-I have tried:
-Pinging into the container at the correct port
-have checked the details of my env file 
-have disconnected from my DBeaver and tried uploading
-loading data using sqlalchemy 
-loading using psgcop2
-was able to access and edit in dbeaver but jsut not able to with code
-checked firewall 
+Unofrtunately, I was not able to load the transformed data into the databse on my server. I have instead loaded it onto a databse on my laptop.
+I have tried the following:
+- Pinging into the container at the correct port
+- Triple checkeded the details of my env file 
+- Disconnected from DBeaver and tried uploading
+- Loading data using sqlalchemy
+- Loading using psycopg2
+- Checked firewall 
 
-Have not tried creating a new virtual env
-looked at configure file in docker
+There are a few options that I have not tried yet:
+- Creating a new virtual env
+- Looked at the postgreSQL config files
 
-
-Instead loaded the data onto a localhost. 
-Please let me know if you see the issue.
-
-
-
-## The Database
-I have a local server, it is a cheap Lenovo mini PC bought from Ebay for about £50. It has the  Ubuntu server distro installed. 
-I will be setting up a PostgreSQL database onto it.
-
-I created a directory in my server. 
-Using github SSH I pulled the attached docker-compose.yml file onto my local server.
-I changed the password and database username, as well as the port number (as I have other programs installed). 
-The first port number is the port that will need to be used to connect to your server. 
-
-Following the adjustments in the file I entered the following command in the terminal: 
-
-```terminal
-docker-compose up -d 
-```
-![](img/img1.png)
-
-
-This runs the container and installs the database!
-
-### Install Confirmation
-
-To confirm that the database has been set up, I opened DBeaver on my main computer. 
-
-I connected to the database as per the following image:
-
-![](img/img2.png)
-![](img/img3.png)
-
-Test the connection and finally confirm! 
-
-Now I can upload data into the database!
-
-![](img/img4.png)
-![](img/img5.png)
-
+Please let me know if you see what the issue could be from the code.
 
 ## Tabluea
-Data was visualised using Tableau: 
+
+The data was manually exported from the databse, then uploaded into Tableau and visualised.
 
 Link to a platuea I have ID'd
 
